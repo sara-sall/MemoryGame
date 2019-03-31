@@ -1,6 +1,7 @@
 package com.example.memorygame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int hs;
     private TextView counterScore;
     private TextView highScore;
+    private SharedPreferences myPrefs;
+    private static final String PREF_SCORE = "myPrefsFile";
 
     private MemoryButton button1;
     private MemoryButton button2;
@@ -82,7 +85,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        myPrefs = getSharedPreferences(PREF_SCORE, 0);
+        SharedPreferences.Editor editor = myPrefs.edit();
 
+        editor.putInt("highScore", hs);
+        editor.commit();
 
     }
 
@@ -116,12 +123,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         else if(button1 == null){
             button1 = button;
             button1.flipCard();
-            return;
         }
         else if(button1.getId() == button.getId()){
             return;
         }
-        //TODO why not work??
+
         else if(button1.getFrontImageID() == button.getFrontImageID()){
             button.flipCard();
             button.setMatched(true);
@@ -131,8 +137,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
             counter+=1;
             pair+=1;
-
-            return;
         }
         else{
             button2 = button;
@@ -161,14 +165,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void checkwin(){
         if(pair == nrOfElements/2){
-            Toast.makeText(this,"Congratulations!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.fin_message, Toast.LENGTH_LONG).show();
         }
 
     }
     public void checkHighScore(){
+        SharedPreferences prefs = getSharedPreferences(PREF_SCORE, 0);
+        if(prefs.contains("highScore")){
+            int score = prefs.getInt("highScore", 0);
+            hs = score;
+        }
         if(hs < counter){
             highScore.setText(String.valueOf(counter));
+
+            myPrefs = getSharedPreferences(PREF_SCORE, 0);
+            SharedPreferences.Editor editor = myPrefs.edit();
+
+            editor.putInt("highScore", counter);
+            editor.commit();
+
+            //setHighScore();
         }
+    }
+    public void setHighScore(){
+        myPrefs = getSharedPreferences(PREF_SCORE, 0);
+        SharedPreferences.Editor editor = myPrefs.edit();
+
+        editor.putInt("highScore", counter);
+        editor.commit();
     }
 
 

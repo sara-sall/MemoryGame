@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MemoryGame</string>
     <string name="title_Memory">Memory Game</string>
-    <string name="start_game">start game</string>
+    <string name="start_game">Start Game</string>
     <string name="start_new_game">Start new game</string>
     <string name="counterScore">0</string>
     <string name="counter">Moves</string>
+    <string name="fin_message">Grattis!</string>
+
 </resources>
