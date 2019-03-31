@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MemorySpel</string>
+    <string name="title_Memory">Memory Spel</string>
+    <string name="start_game">Starta Spel</string>
+    <string name="start_new_game">Starta nytt spel</string>
+    <string name="counterScore">0</string>
+    <string name="counter">Drag</string>
+    <string name="fin_message">Grattis!</string>
+</resources>
