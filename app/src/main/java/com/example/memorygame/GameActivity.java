@@ -1,10 +1,15 @@
 package com.example.memorygame;
 
+import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -13,6 +18,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private MemoryButton[] memoryButton;
     private int[] buttonResLoc;
     private int[] buttonGraph;
+    private int counter = 0;
+    private int pair;
+    private int hs;
+    private TextView counterScore;
+    private TextView highScore;
 
     private MemoryButton button1;
     private MemoryButton button2;
@@ -26,7 +36,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         GridLayout gameGrid = (GridLayout) findViewById(R.id.gameGridID);
         gameGrid.setColumnCount(4);
-        gameGrid.setRowCount(4);
+        gameGrid.setRowCount(5);
         int numCol = gameGrid.getColumnCount();
         int numRow = gameGrid.getRowCount();
 
@@ -39,9 +49,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraph[2] = R.drawable.elephant128;
         buttonGraph[3] = R.drawable.fox128;
         buttonGraph[4] = R.drawable.pig128;
-        buttonGraph[5] = R.drawable.rabbit128;
+        buttonGraph[5] = R.drawable.penguin128;
         buttonGraph[6] = R.drawable.racoon128;
         buttonGraph[7] = R.drawable.turtle128;
+        buttonGraph[8] = R.drawable.dog128;
+        buttonGraph[9] = R.drawable.lion128;
+
 
         buttonResLoc = new int[nrOfElements];
 
@@ -55,6 +68,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 gameGrid.addView(tButton);
             }
         }
+
+        counterScore = (TextView) findViewById(R.id.counterScoreID);
+        highScore = (TextView) findViewById(R.id.highScoreID);
+
+        Button buttonStartGame = (Button) findViewById(R.id.buttonGameStart);
+
+        buttonStartGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -77,6 +104,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
         if(busy){
             return;
         }
@@ -93,19 +121,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         else if(button1.getId() == button.getId()){
             return;
         }
+        //TODO why not work??
         else if(button1.getFrontImageID() == button.getFrontImageID()){
             button.flipCard();
             button.setMatched(true);
             button1.setEnabled(false);
             button.setEnabled(false);
-
             button1 = null;
+
+            counter+=1;
+            pair+=1;
+
             return;
         }
         else{
             button2 = button;
             button2.flipCard();
             busy = true;
+            counter+=1;
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -121,5 +154,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }, 500);
 
         }
+        counterScore.setText(String.valueOf(counter));
+        checkwin();
+        checkHighScore();
+ }
+
+    public void checkwin(){
+        if(pair == nrOfElements/2){
+            Toast.makeText(this,"Congratulations!", Toast.LENGTH_LONG).show();
+        }
+
     }
+    public void checkHighScore(){
+        if(hs < counter){
+            highScore.setText(String.valueOf(counter));
+        }
+    }
+
+
 }
