@@ -1,5 +1,6 @@
 package com.example.memorygame;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -24,8 +25,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int hs;
     private TextView counterScore;
     private TextView highScore;
-    private SharedPreferences myPrefs;
-    private static final String PREF_SCORE = "myPrefsFile";
+    private SharedPreferences sharedPref;
+    private static final String MyPREFERENCES = "MyPREFERENCES";
+    final String HS_KEY = "highscore";
+    private String hScore;
 
     private MemoryButton button1;
     private MemoryButton button2;
@@ -85,11 +88,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        myPrefs = getSharedPreferences(PREF_SCORE, 0);
-        SharedPreferences.Editor editor = myPrefs.edit();
-
-        editor.putInt("highScore", hs);
-        editor.commit();
+        sharedPref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        hScore = sharedPref.getString(HS_KEY, null);
+        if(hScore != null){
+            highScore.setText(hScore);
+        }
 
     }
 
@@ -170,29 +173,28 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     public void checkHighScore(){
-        SharedPreferences prefs = getSharedPreferences(PREF_SCORE, 0);
-        if(prefs.contains("highScore")){
-            int score = prefs.getInt("highScore", 0);
-            hs = score;
-        }
-        if(hs < counter){
+//        SharedPreferences prefs = getSharedPreferences(PREF_SCORE, 0);
+//        if(prefs.contains("highScore")){
+//            int score = prefs.getInt("highScore", 0);
+//            hs = score;
+//        }
+        if(hScore != null){
+            hs = Integer.parseInt(hScore);
+            if(hs > counter){
+                hs = counter;
+                highScore.setText(String.valueOf(hs));
+                saveHighScore(hs);
+            }
+       }else{
             highScore.setText(String.valueOf(counter));
-
-            myPrefs = getSharedPreferences(PREF_SCORE, 0);
-            SharedPreferences.Editor editor = myPrefs.edit();
-
-            editor.putInt("highScore", counter);
-            editor.commit();
-
-            //setHighScore();
+            saveHighScore(counter);
         }
     }
-    public void setHighScore(){
-        myPrefs = getSharedPreferences(PREF_SCORE, 0);
-        SharedPreferences.Editor editor = myPrefs.edit();
-
-        editor.putInt("highScore", counter);
-        editor.commit();
+    public void saveHighScore(int c){
+        String saveScore = String.valueOf(c);
+        SharedPreferences.Editor editPref = sharedPref.edit();
+        editPref.putString(HS_KEY, saveScore);
+        editPref.commit();
     }
 
 
