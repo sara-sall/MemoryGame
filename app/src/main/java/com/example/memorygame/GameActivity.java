@@ -162,33 +162,40 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         counterScore.setText(String.valueOf(counter));
-        checkwin();
-        checkHighScore();
- }
-
-    public void checkwin(){
-        if(pair == nrOfElements/2){
-            Toast.makeText(this,R.string.fin_message, Toast.LENGTH_LONG).show();
+        if(checkwin()){
+            if(checkHighScore()){
+                Toast.makeText(this,R.string.record_message, Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(this,R.string.fin_message, Toast.LENGTH_LONG).show();
+            }
         }
 
+ }
+
+    public boolean checkwin(){
+        if(pair == nrOfElements/2){
+            return true;
+        }
+        return false;
     }
-    public void checkHighScore(){
-//        SharedPreferences prefs = getSharedPreferences(PREF_SCORE, 0);
-//        if(prefs.contains("highScore")){
-//            int score = prefs.getInt("highScore", 0);
-//            hs = score;
-//        }
+
+    public boolean checkHighScore(){
         if(hScore != null){
             hs = Integer.parseInt(hScore);
             if(hs > counter){
                 hs = counter;
                 highScore.setText(String.valueOf(hs));
                 saveHighScore(hs);
+                return true;
             }
        }else{
             highScore.setText(String.valueOf(counter));
             saveHighScore(counter);
+            return true;
         }
+
+        return false;
     }
     public void saveHighScore(int c){
         String saveScore = String.valueOf(c);

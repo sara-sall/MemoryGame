@@ -7,4 +7,5 @@
     <string name="counterScore">0</string>
     <string name="counter">Drag</string>
     <string name="fin_message">Grattis!</string>
+    <string name="record_message">Grattis nytt rekord!</string>
 </resources>

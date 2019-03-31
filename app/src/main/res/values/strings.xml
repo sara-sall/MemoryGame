@@ -6,6 +6,7 @@
     <string name="start_new_game">Start new game</string>
     <string name="counterScore">0</string>
     <string name="counter">Moves</string>
-    <string name="fin_message">Grattis!</string>
+    <string name="fin_message">Congratulations!</string>
+    <string name="record_message">Congratulations new record!</string>
 
 </resources>
