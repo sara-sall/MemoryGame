@@ -102,6 +102,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GameActivity.this, GameActivity.class);
+                intent.putExtra("row", row);
+                intent.putExtra("column", column);
+                intent.putExtra("densityNr", densityNr);
+                intent.putExtra("valueKey", HS_KEY);
+                startActivity(intent);
+            }
+        });
+
+        Button buttonChangeType = (Button) findViewById(R.id.changeTypeButton);
+
+        buttonChangeType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

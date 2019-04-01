@@ -8,4 +8,8 @@
     <string name="counter">Drag</string>
     <string name="fin_message">Grattis!</string>
     <string name="record_message">Grattis nytt rekord!</string>
+    <string name="startGame4x4">Starta Spel 4x4</string>
+    <string name="startGame4x5">Starta Spel 4x5</string>
+    <string name="startGame4x6">Starta Spel 4x6</string>
+    <string name="changeTypeButton">Ändra speltyp</string>
 </resources>

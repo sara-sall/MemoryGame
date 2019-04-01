@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("row", 6);
                 intent.putExtra("column", 4);
-                intent.putExtra("densityNr", 110);
+                intent.putExtra("densityNr", 109);
                 intent.putExtra("valueKey", "hs4x6");
                 startActivity(intent);
             }
