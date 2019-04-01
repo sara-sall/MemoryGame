@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +26,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView highScore;
     private SharedPreferences sharedPref;
     private static final String MyPREFERENCES = "MyPREFERENCES";
-    final String HS_KEY = "highscore";
+    private String HS_KEY;// = "highscore";
     private String hScore;
+    private int row;
+    private int column;
+    private int densityNr;
 
     private MemoryButton button1;
     private MemoryButton button2;
@@ -40,13 +42,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        GridLayout gameGrid = (GridLayout) findViewById(R.id.gameGridID);
-        gameGrid.setColumnCount(4);
-        gameGrid.setRowCount(5);
-        int numCol = gameGrid.getColumnCount();
-        int numRow = gameGrid.getRowCount();
+        Intent getIntent = getIntent();
+        Bundle intentBundle = getIntent.getExtras();
 
-        nrOfElements = numCol * numRow;
+        if(intentBundle != null){
+            row = (int) intentBundle.get("row");
+            column = (int) intentBundle.get("column");
+            densityNr = (int) intentBundle.get("densityNr");
+            HS_KEY = (String) intentBundle.get("valueKey");
+        }
+
+
+        GridLayout gameGrid = (GridLayout) findViewById(R.id.gameGridID);
+        gameGrid.setColumnCount(column);
+        gameGrid.setRowCount(row);
+
+        nrOfElements = row * column;
 
         buttonGraph = new int[nrOfElements /2];
 
@@ -58,17 +69,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonGraph[5] = R.drawable.penguin128;
         buttonGraph[6] = R.drawable.racoon128;
         buttonGraph[7] = R.drawable.turtle128;
-        buttonGraph[8] = R.drawable.dog128;
-        buttonGraph[9] = R.drawable.lion128;
+        if(nrOfElements >= 20){
+            buttonGraph[8] = R.drawable.dog128;
+            buttonGraph[9] = R.drawable.lion128;
+            if(nrOfElements > 20){
+                buttonGraph[10] = R.drawable.rabbit128;
+                buttonGraph[11] = R.drawable.fish128;
+            }
+        }
+
 
 
         buttonResLoc = new int[nrOfElements];
 
         shuffleCards();
 
-        for(int r = 0; r < numRow; r++){
-            for(int c = 0; c < numCol; c++){
-                MemoryButton tButton = new MemoryButton(this, r, c, buttonGraph[buttonResLoc[r * numCol + c]]);
+        for(int r = 0; r < row; r++){
+            for(int c = 0; c < column; c++){
+                MemoryButton tButton = new MemoryButton(this, r, c, buttonGraph[buttonResLoc[r * column + c]], densityNr);
                 tButton.setId(View.generateViewId());
                 tButton.setOnClickListener(this);
                 gameGrid.addView(tButton);
@@ -78,7 +96,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         counterScore = (TextView) findViewById(R.id.counterScoreID);
         highScore = (TextView) findViewById(R.id.highScoreID);
 
-        Button buttonStartGame = (Button) findViewById(R.id.buttonGameStart);
+        Button buttonStartGame = (Button) findViewById(R.id.buttonGameStart4x5);
 
         buttonStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,6 +221,4 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         editPref.putString(HS_KEY, saveScore);
         editPref.commit();
     }
-
-
 }

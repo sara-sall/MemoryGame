@@ -12,6 +12,7 @@ public class MemoryButton extends android.support.v7.widget.AppCompatButton {
     private int row;
     private int column;
     private int frontImageID;
+    private int densityNr;
 
     private boolean flipped = false;
     private boolean matched = false;
@@ -20,12 +21,13 @@ public class MemoryButton extends android.support.v7.widget.AppCompatButton {
     private Drawable backImageDraw;
 
     @SuppressLint("RestrictedApi")
-    public MemoryButton(Context context, int row, int column, int frontImageID) {
+    public MemoryButton(Context context, int row, int column, int frontImageID, int densityNr) {
         super(context);
 
         this.row = row;
         this.column = column;
         this.frontImageID = frontImageID;
+        this.densityNr = densityNr;
 
         frontImageDraw = AppCompatDrawableManager.get().getDrawable(context, frontImageID);
         backImageDraw = AppCompatDrawableManager.get().getDrawable(context, R.drawable.background128);
@@ -34,8 +36,8 @@ public class MemoryButton extends android.support.v7.widget.AppCompatButton {
 
         GridLayout.LayoutParams tParams = new GridLayout.LayoutParams(GridLayout.spec(row), GridLayout.spec(column));
 
-        tParams.width = (int) getResources().getDisplayMetrics().density *130;
-        tParams.height = (int) getResources().getDisplayMetrics().density *130;
+        tParams.width = (int) getResources().getDisplayMetrics().density * densityNr; //130
+        tParams.height = (int) getResources().getDisplayMetrics().density * densityNr; //130
         setLayoutParams(tParams);
     }
 

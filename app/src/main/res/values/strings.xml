@@ -8,5 +8,8 @@
     <string name="counter">Moves</string>
     <string name="fin_message">Congratulations!</string>
     <string name="record_message">Congratulations new record!</string>
+    <string name="startGame4x4">Start Game 4x4</string>
+    <string name="startGame4x5">Start Game 4x5</string>
+    <string name="startGame4x6">Start Game 4x6</string>
 
 </resources>
