@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("row", 4);
                 intent.putExtra("column", 4);
-                intent.putExtra("densityNr", 130);
+                intent.putExtra("densityNr", 85); //130
                 intent.putExtra("valueKey", "hs4x4");
                 startActivity(intent);
             }
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("row", 5);
                 intent.putExtra("column", 4);
-                intent.putExtra("densityNr", 130);
+                intent.putExtra("densityNr", 80);
                 intent.putExtra("valueKey", "hs4x5");
                 startActivity(intent);
             }
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 intent.putExtra("row", 6);
                 intent.putExtra("column", 4);
-                intent.putExtra("densityNr", 109);
+                intent.putExtra("densityNr", 70);
                 intent.putExtra("valueKey", "hs4x6");
                 startActivity(intent);
             }

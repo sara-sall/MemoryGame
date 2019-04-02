@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -16,7 +17,6 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
     private int nrOfElements;
-    private MemoryButton[] memoryButton;
     private int[] buttonResLoc;
     private int[] buttonGraph;
     private int counter = 0;
@@ -26,7 +26,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView highScore;
     private SharedPreferences sharedPref;
     private static final String MyPREFERENCES = "MyPREFERENCES";
-    private String HS_KEY;// = "highscore";
+    private String HS_KEY;
     private String hScore;
     private int row;
     private int column;
@@ -51,7 +51,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             densityNr = (int) intentBundle.get("densityNr");
             HS_KEY = (String) intentBundle.get("valueKey");
         }
-
 
         GridLayout gameGrid = (GridLayout) findViewById(R.id.gameGridID);
         gameGrid.setColumnCount(column);
@@ -79,7 +78,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-
         buttonResLoc = new int[nrOfElements];
 
         shuffleCards();
@@ -95,6 +93,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         counterScore = (TextView) findViewById(R.id.counterScoreID);
         highScore = (TextView) findViewById(R.id.highScoreID);
+
+        //Find and Set buttons onClick
 
         Button buttonStartGame = (Button) findViewById(R.id.buttonGameStart4x5);
 
@@ -126,6 +126,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             highScore.setText(hScore);
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        return true;
     }
 
     protected void shuffleCards(){
@@ -229,6 +238,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         return false;
     }
+
     public void saveHighScore(int c){
         String saveScore = String.valueOf(c);
         SharedPreferences.Editor editPref = sharedPref.edit();
